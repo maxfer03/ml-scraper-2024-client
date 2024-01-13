@@ -27,7 +27,6 @@ const products = ref([])
 const search = async () => {
   try {
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/search`, { params: { query: query.value } });
-    console.log(response); // Handle your response here
     products.value = response.data
   } catch (error) {
     console.error(error); // Handle the error here
