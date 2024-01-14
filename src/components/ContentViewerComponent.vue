@@ -1,9 +1,10 @@
 <template>
   <div class="content-viewer" >
     <div class="search" >
-        <InputText v-model="query" placeholder="Search" />
+      <InputText v-model="query" placeholder="Search" />
       <Button @click="search" label="Search"  rounded size="small"/>
     </div>
+    <SpinnerComponent v-if="loading" />
     <div v-if="products.length > 0" class="products-visualizer">
       <span>{{ products.length }} item{{products.length === 1 ? '' : 's'}} found!</span>
       <div class="files">
@@ -24,19 +25,24 @@
 
 <script setup>
 import InputText from 'primevue/inputtext';
+import SpinnerComponent from './utility/SpinnerComponent.vue';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { ref } from 'vue';
 import axios from 'axios';
 const query = ref('')
+const loading = ref(false)
 const products = ref([])
 
 const search = async () => {
+  products.value = []
+  loading.value = true
   try {
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/search`, { params: { query: query.value } });
     products.value = response.data
   } catch (error) {
     console.error(error); // Handle the error here
   }
+  loading.value = false
 }
 
 function convertToCSV(arr) {
