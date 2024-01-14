@@ -1,14 +1,14 @@
 <template>
   <div class="content-viewer" >
     <div class="search" >
-      <input v-model="query" type="text" />
-      <button @click="search" >Search</button>
+        <InputText v-model="query" placeholder="Search" />
+      <Button @click="search" label="Search"  rounded size="small"/>
     </div>
     <div v-if="products.length > 0" class="products-visualizer">
       <span>{{ products.length }} item{{products.length === 1 ? '' : 's'}} found!</span>
       <div class="files">
-        <button @click="downloadCSV" >Download CSV file</button>
-        <button @click="downloadXLSX" >Download XLSX file</button>
+        <Button @click="downloadCSV"  label="Download CSV file" rounded size="small"/>
+        <Button @click="downloadXLSX"  label="Download XLSX file" rounded size="small"/>
       </div>
       <!-- <ul>
         <li v-for="product, idx in products" :key="`prod-${idx}`">
@@ -23,6 +23,7 @@
 </template>
 
 <script setup>
+import InputText from 'primevue/inputtext';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { ref } from 'vue';
 import axios from 'axios';
@@ -62,20 +63,22 @@ const downloadXLSX = () => {
   const ws = XLSX.utils.json_to_sheet(products.value);
   // Create a workbook
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-  // Generate a blob
-  const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    // Generate a blob
+    const blob = XLSX.write(wb, { bookType: 'xlsx', mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
-  // Create a download link and trigger the download
-  const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'output.xlsx';
-  a.click();
-  window.URL.revokeObjectURL(url);
+    // Create a download link and trigger the download
+    const url = window.URL.createObjectURL(new Blob([blob], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'output.xlsx';
+    a.click();
+    window.URL.revokeObjectURL(url);
 }
+
+
+
 
 </script>
 
@@ -84,23 +87,20 @@ const downloadXLSX = () => {
   @apply py-5 flex flex-col items-center;
   .search {
     @apply flex flex-col items-center gap-2;
-    input {
-      @apply border-2;
+
+    button {
+      @apply w-full
     }
-    
+
   }
 
   .products-visualizer {
-    @apply w-[400px] flex flex-col items-center gap-5 mt-5;
+    @apply flex flex-col items-center gap-2 mt-2;
 
     .files {
-       @apply w-full flex gap-2 justify-between;
+      @apply flex gap-2
     }
   }
 
-  button {
-      @apply w-full bg-black/15 py-1 px-3 rounded-md
-  }
-  
 }
 </style>
