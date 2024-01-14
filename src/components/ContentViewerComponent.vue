@@ -69,18 +69,27 @@ const downloadXLSX = () => {
   const ws = XLSX.utils.json_to_sheet(products.value);
   // Create a workbook
   const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    // Generate a blob
-    const blob = XLSX.write(wb, { bookType: 'xlsx', mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  // Generate a binary string
+  const binaryString = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
 
-    // Create a download link and trigger the download
-    const url = window.URL.createObjectURL(new Blob([blob], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'output.xlsx';
-    a.click();
-    window.URL.revokeObjectURL(url);
+  // Convert binary string to character codes
+  const binaryArray = new Uint8Array(binaryString.length);
+  for (let i = 0; i < binaryString.length; i++) {
+    binaryArray[i] = binaryString.charCodeAt(i);
+  }
+
+  // Create a blob from the binary array
+  const blob = new Blob([binaryArray], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+  // Create a download link and trigger the download
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${query.value.replace(' ', "_")}.xlsx`;
+  a.click();
+  window.URL.revokeObjectURL(url);
 }
 
 
