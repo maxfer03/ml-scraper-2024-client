@@ -36,11 +36,26 @@ const products = ref([])
 const search = async () => {
   products.value = []
   loading.value = true
-  try {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/search`, { params: { query: query.value } });
-    products.value = response.data
-  } catch (error) {
-    console.error(error); // Handle the error here
+  let counter = 0
+  let oopsError = 0
+  while (oopsError === 0) {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/search`,
+       { 
+        params: 
+        { 
+          query: query.value,
+          page: counter
+        } 
+      });
+      console.log(response)
+      products.value = [...products.value, ...response.data]
+      counter = counter + 1
+    } catch (error) {
+      oopsError = 1
+      console.error(error); // Handle the error here
+    }
+    // counter++;
   }
   loading.value = false
 }
