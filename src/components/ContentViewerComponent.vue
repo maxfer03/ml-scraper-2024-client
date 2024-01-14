@@ -6,7 +6,10 @@
     </div>
     <div v-if="products.length > 0" class="products-visualizer">
       <span>{{ products.length }} item{{products.length === 1 ? '' : 's'}} found!</span>
-      <button @click="downloadCSV" >Download CSV file</button>
+      <div class="files">
+        <button @click="downloadCSV" >Download CSV file</button>
+        <button @click="downloadXLSX" >Download XLSX file</button>
+      </div>
       <!-- <ul>
         <li v-for="product, idx in products" :key="`prod-${idx}`">
           <a :href="product.url" target="_blank" >
@@ -20,6 +23,7 @@
 </template>
 
 <script setup>
+import * as XLSX from 'xlsx/xlsx.mjs';
 import { ref } from 'vue';
 import axios from 'axios';
 const query = ref('')
@@ -53,8 +57,25 @@ function downloadCSV() {
   document.body.removeChild(link);
 }
 
+const downloadXLSX = () => {
+  // Create a worksheet
+  const ws = XLSX.utils.json_to_sheet(products.value);
+  // Create a workbook
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
+  // Generate a blob
+  const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
 
+  // Create a download link and trigger the download
+  const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'output.xlsx';
+  a.click();
+  window.URL.revokeObjectURL(url);
+}
 
 </script>
 
@@ -70,7 +91,11 @@ function downloadCSV() {
   }
 
   .products-visualizer {
-    @apply flex flex-col items-center gap-2 mt-2;
+    @apply w-[400px] flex flex-col items-center gap-5 mt-5;
+
+    .files {
+       @apply w-full flex gap-2 justify-between;
+    }
   }
 
   button {
