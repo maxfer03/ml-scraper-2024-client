@@ -5,15 +5,16 @@
       <button @click="search" >Search</button>
     </div>
     <div v-if="products.length > 0" class="products-visualizer">
+      <span>{{ products.length }} item{{products.length === 1 ? '' : 's'}} found!</span>
       <button @click="downloadCSV" >Download CSV file</button>
-      <ul>
+      <!-- <ul>
         <li v-for="product, idx in products" :key="`prod-${idx}`">
           <a :href="product.url" target="_blank" >
             {{ product.title }}
           </a>
           <span>$ {{ product.final_price }}</span>
         </li>
-      </ul>
+      </ul> -->
     </div>
   </div>
 </template>
@@ -46,7 +47,7 @@ function downloadCSV() {
   const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
-  link.setAttribute('download', 'data.csv');
+  link.setAttribute('download', `${query.value}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -68,8 +69,13 @@ function downloadCSV() {
     
   }
 
-  button {
-      @apply w-full bg-black/15 p-1 rounded-md
+  .products-visualizer {
+    @apply flex flex-col items-center gap-2 mt-2;
   }
+
+  button {
+      @apply w-full bg-black/15 py-1 px-3 rounded-md
+  }
+  
 }
 </style>
