@@ -1,14 +1,13 @@
 <template>
-  <div class="content-viewer" >
+  <div class="search-bar-module" >
     <div class="search" >
       <InputText @keydown.enter="search" v-model="query" placeholder="Search" />
       <Button @click="search" icon="pi pi-search"  rounded size="small"/>
     </div>
     <SpinnerComponent v-if="loadingProducts" />
-    <div v-if="products.length > 0" class="products-visualizer">
+    <div v-if="products.length > 0" class="search-data">
       <span v-if="loadingProducts">page {{ searchInfo.current_page }} of {{ searchInfo.total_pages }}</span>
       <span>{{ products.length }} item{{products.length === 1 ? '' : 's'}} found!</span>
-      <TableComponent/>
     </div>
   </div>
 </template>
@@ -59,8 +58,8 @@ const search = async () => {
 </script>
 
 <style lang="scss" scoped>
-.content-viewer {
-  @apply py-5 flex flex-col items-center;
+.search-bar-module {
+  @apply flex flex-col items-center gap-2;
   .search {
     @apply flex items-center gap-2;
 
@@ -70,12 +69,8 @@ const search = async () => {
 
   }
 
-  .products-visualizer {
-    @apply flex flex-col items-center gap-2 mt-2;
-
-    .files {
-      @apply flex gap-2
-    }
+  .search-data {
+    @apply mt-3 flex flex-col items-center gap-1;
   }
 
 }
