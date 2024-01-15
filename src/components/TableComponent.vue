@@ -32,7 +32,7 @@ import { storeToRefs } from 'pinia'
 import { ref, watch } from 'vue';
 
 const store = useDataStore()
-const { products } = storeToRefs(store)
+const { products, query } = storeToRefs(store)
 
 const showBrand = ref(false)
 
@@ -45,11 +45,11 @@ function convertToCSV(arr) {
 }
 
 function downloadCSV() {
-  const csvData = convertToCSV(products);
+  const csvData = convertToCSV(products.value);
   const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
-  link.setAttribute('download', `${'data'}.csv`);
+  link.setAttribute('download', `${query.value.replace(' ', "_")}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -57,7 +57,7 @@ function downloadCSV() {
 
 const downloadXLSX = () => {
   // Create a worksheet
-  const ws = XLSX.utils.json_to_sheet(products);
+  const ws = XLSX.utils.json_to_sheet(products.value);
   // Create a workbook
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
@@ -78,7 +78,7 @@ const downloadXLSX = () => {
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${'data'.replace(' ', "_")}.xlsx`;
+  a.download = `${query.value.replace(' ', "_")}.xlsx`;
   a.click();
   window.URL.revokeObjectURL(url);
 }
