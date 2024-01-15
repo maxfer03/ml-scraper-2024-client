@@ -17,6 +17,11 @@
 import InputText from 'primevue/inputtext';
 import SpinnerComponent from './utility/SpinnerComponent.vue';
 import TableComponent from './TableComponent.vue';
+<<<<<<< HEAD
+=======
+import * as XLSX from 'xlsx/xlsx.mjs';
+import { ref } from 'vue';
+>>>>>>> 9fb077d (added data table)
 import axios from 'axios';
 import { ref } from 'vue';
 
