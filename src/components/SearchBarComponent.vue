@@ -1,10 +1,12 @@
 <template>
   <div class="search-bar-module" >
     <div class="search" >
-      <InputText @keydown.enter="search" v-model="query" placeholder="Search" />
+      <span class="search-field">
+        <i v-if="loadingProducts" class="search-field-spinner pi pi-spin pi-spinner" />
+        <InputText @keydown.enter="search" v-model="query" placeholder="Search" />
+      </span>
       <Button @click="search" icon="pi pi-search"  rounded size="small"/>
     </div>
-    <SpinnerComponent v-if="loadingProducts" />
     <div v-if="products.length > 0" class="search-data">
       <span v-if="loadingProducts">page {{ searchInfo.current_page }} of {{ searchInfo.total_pages }}</span>
       <span>{{ products.length }} item{{products.length === 1 ? '' : 's'}} found!</span>
@@ -14,8 +16,6 @@
 
 <script setup>
 import InputText from 'primevue/inputtext';
-import SpinnerComponent from './utility/SpinnerComponent.vue';
-import TableComponent from './TableComponent.vue';
 import axios from 'axios';
 import { useDataStore } from '@/stores/data'
 import { storeToRefs } from 'pinia'
@@ -63,6 +63,13 @@ const search = async () => {
   .search {
     @apply flex items-center gap-2;
 
+    &-field {
+      @apply relative;
+      &-spinner {
+        @apply absolute top-2/4 -mt-2 right-3 text-surface-400 dark:text-surface-600;
+      }
+    }
+
     button {
       @apply w-full
     }
@@ -70,7 +77,7 @@ const search = async () => {
   }
 
   .search-data {
-    @apply mt-3 flex flex-col items-center gap-1;
+    @apply min-h-[50px] mt-3 flex flex-col items-center justify-center gap-1;
   }
 
 }
