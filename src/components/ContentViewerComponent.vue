@@ -1,8 +1,8 @@
 <template>
   <div class="content-viewer" >
     <div class="search" >
-      <InputText v-model="query" placeholder="Search" />
-      <Button @click="search" label="Search"  rounded size="small"/>
+      <InputText @keydown.enter="search" v-model="query" placeholder="Search" />
+      <Button @click="search" icon="pi pi-search"  rounded size="small"/>
     </div>
     <SpinnerComponent v-if="loading" />
     <div v-if="products.length > 0" class="products-visualizer">
@@ -70,7 +70,7 @@ const search = async () => {
 .content-viewer {
   @apply py-5 flex flex-col items-center;
   .search {
-    @apply flex flex-col items-center gap-2;
+    @apply flex items-center gap-2;
 
     button {
       @apply w-full
