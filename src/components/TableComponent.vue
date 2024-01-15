@@ -58,6 +58,15 @@ function downloadCSV() {
 const downloadXLSX = () => {
   // Create a worksheet
   const ws = XLSX.utils.json_to_sheet(products.value);
+  ws['D2'].l = { Target: "https://sheetjs.com"}
+  const DRow = Object.keys(ws).filter(key => key.includes('D'))
+
+  for (const idx in DRow) {
+    const thisUrl = ws[DRow[idx]].v
+    ws[DRow[idx]].v = "Link"
+    ws[DRow[idx]].l = {Target: thisUrl}
+  }
+
   // Create a workbook
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
