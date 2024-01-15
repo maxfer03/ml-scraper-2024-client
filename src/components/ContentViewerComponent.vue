@@ -17,8 +17,8 @@
 import InputText from 'primevue/inputtext';
 import SpinnerComponent from './utility/SpinnerComponent.vue';
 import TableComponent from './TableComponent.vue';
-import { ref } from 'vue';
 import axios from 'axios';
+import { ref } from 'vue';
 
 const query = ref('')
 const loading = ref(false)
