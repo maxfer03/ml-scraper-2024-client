@@ -1,5 +1,5 @@
 <template>
-  <DataTable class="table" :value="data" paginator :rows="25" :rowsPerPageOptions="[5, 10, 20, 50]"
+  <DataTable class="table" :value="products" paginator :rows="25" :rowsPerPageOptions="[5, 10, 20, 50]"
   scrollable scrollHeight="400px" size="small"
   >
     <template #header>
@@ -23,8 +23,11 @@
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import * as XLSX from 'xlsx/xlsx.mjs';
+import { useDataStore } from '@/stores/data'
+import { storeToRefs } from 'pinia'
 
-const props = defineProps(['data'])
+const store = useDataStore()
+const { products } = storeToRefs(store)
 
 function convertToCSV(arr) {
   const array = [Object.keys(arr[0])].concat(arr);
@@ -35,7 +38,7 @@ function convertToCSV(arr) {
 }
 
 function downloadCSV() {
-  const csvData = convertToCSV(props.data);
+  const csvData = convertToCSV(products);
   const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
@@ -47,7 +50,7 @@ function downloadCSV() {
 
 const downloadXLSX = () => {
   // Create a worksheet
-  const ws = XLSX.utils.json_to_sheet(props.data);
+  const ws = XLSX.utils.json_to_sheet(products);
   // Create a workbook
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');

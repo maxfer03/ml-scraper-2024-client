@@ -4,11 +4,11 @@
       <InputText @keydown.enter="search" v-model="query" placeholder="Search" />
       <Button @click="search" icon="pi pi-search"  rounded size="small"/>
     </div>
-    <SpinnerComponent v-if="loading" />
+    <SpinnerComponent v-if="loadingProducts" />
     <div v-if="products.length > 0" class="products-visualizer">
-      <span v-if="loading">page {{ reqInfo.current_page }} of {{ reqInfo.total_pages }}</span>
+      <span v-if="loadingProducts">page {{ searchInfo.current_page }} of {{ searchInfo.total_pages }}</span>
       <span>{{ products.length }} item{{products.length === 1 ? '' : 's'}} found!</span>
-      <TableComponent :data="products"/>
+      <TableComponent/>
     </div>
   </div>
 </template>
@@ -18,26 +18,18 @@ import InputText from 'primevue/inputtext';
 import SpinnerComponent from './utility/SpinnerComponent.vue';
 import TableComponent from './TableComponent.vue';
 import axios from 'axios';
-import { ref } from 'vue';
+import { useDataStore } from '@/stores/data'
+import { storeToRefs } from 'pinia'
 
-const query = ref('')
-const loading = ref(false)
+const store = useDataStore()
 
-const reqInfo = ref ({
-  current_page: 0,
-  total_pages: null,
-  url: ''
-})
-const products = ref([])
+const {mergeProducts, resetProducts, isLoadingProducts, resetSearchInfo} = store
+const { products, query, loadingProducts, searchInfo } = storeToRefs(store)
 
 const search = async () => {
-  products.value = []
-  reqInfo.value = {
-  current_page: 0,
-  total_pages: null,
-  url: ''
-}
-  loading.value = true
+  resetProducts()
+  resetSearchInfo()
+  isLoadingProducts(true)
   let oopsError = 0
   while (oopsError === 0) {
     try {
@@ -46,22 +38,22 @@ const search = async () => {
         params: 
         { 
           query: query.value,
-          page: reqInfo.value.current_page
+          page: searchInfo.value.current_page
         } 
       });
       console.log(response)
-      products.value = [...products.value, ...response.data.products]
-      if(!reqInfo.value.total_pages) {
-        reqInfo.value.total_pages = response.data.info.total_pages
+      mergeProducts(response.data.products)
+      if(!searchInfo.value.total_pages && !searchInfo.value.url) {
+        searchInfo.value.total_pages = response.data.info.total_pages
+        searchInfo.value.url = response.data.info.url
       }
-      reqInfo.value.current_page++
+      searchInfo.value.current_page++
     } catch (error) {
       oopsError = 1
-      console.error(error); // Handle the error here
+      console.error(error);
     }
-    // counter++;
   }
-  loading.value = false
+  isLoadingProducts(false)
 }
 
 </script>
