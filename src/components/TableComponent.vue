@@ -63,7 +63,7 @@ const downloadXLSX = () => {
 
   for (const idx in DRow) {
     const thisUrl = ws[DRow[idx]].v
-    ws[DRow[idx]].v = "Link"
+    ws[DRow[idx]].v = "Open Link"
     ws[DRow[idx]].l = {Target: thisUrl}
   }
 
