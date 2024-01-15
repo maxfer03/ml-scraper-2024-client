@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import plugin from 'tailwindcss/plugin'
 export default {
   purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   content: [],
@@ -31,6 +32,15 @@ export default {
       }
     }
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addComponents }) {
+      addComponents({
+        '.link': {
+          textDecoration: 'underline', 
+          color: 'rgb(var(--primary-500))',
+        },
+      })
+    }),
+  ],
 }
 
