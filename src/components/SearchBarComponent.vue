@@ -80,6 +80,10 @@ const search = async () => {
       &-spinner {
         @apply absolute top-2/4 -mt-2 right-3 text-surface-400 dark:text-surface-600;
       }
+
+      input {
+        @apply w-[250px] pr-9
+      }
     }
 
     button {
