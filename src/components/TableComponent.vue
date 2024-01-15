@@ -1,6 +1,6 @@
 <template>
   <DataTable v-if="products.length > 0" class="table" :value="products" paginator :rows="25" :rowsPerPageOptions="[5, 10, 20, 50]"
-  scrollable scrollHeight="350px" size="small"
+  scrollable scrollHeight="350px" size="small" removableSort
   >
     <template #header>
       <div class="table-header" >
@@ -10,7 +10,11 @@
     </template>
     <Column class="col" field="title" header="Title" sortable style="width: 70%"></Column>
     <Column v-if="showBrand" class="col" field="brand" header="Brand" sortable style="width: 10%"></Column>
-    <Column class="col" field="final_price" header="Price" sortable style="width: 10%"></Column>
+    <Column class="col" field="final_price" header="Price" sortable style="width: 10%">
+      <template #body="slotProps">
+          <span>$ {{slotProps.data.final_price}}</span>
+      </template>
+    </Column>
     <Column class="col" field="url" header="Link" style="width: 10%">
       <template #body="slotProps">
           <a class="link" :href="slotProps.data.url" target="_blank" >Link</a>
