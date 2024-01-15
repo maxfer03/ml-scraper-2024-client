@@ -9,7 +9,7 @@
       </div>
     </template>
     <Column class="col" field="title" header="Title" sortable style="width: 70%"></Column>
-    <Column class="col" field="brand" header="Brand" sortable style="width: 10%"></Column>
+    <Column v-if="showBrand" class="col" field="brand" header="Brand" sortable style="width: 10%"></Column>
     <Column class="col" field="final_price" header="Price" sortable style="width: 10%"></Column>
     <Column class="col" field="url" header="Link" style="width: 10%">
       <template #body="slotProps">
@@ -25,9 +25,12 @@ import Column from 'primevue/column';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { useDataStore } from '@/stores/data'
 import { storeToRefs } from 'pinia'
+import { ref, watch } from 'vue';
 
 const store = useDataStore()
 const { products } = storeToRefs(store)
+
+const showBrand = ref(false)
 
 function convertToCSV(arr) {
   const array = [Object.keys(arr[0])].concat(arr);
@@ -75,6 +78,15 @@ const downloadXLSX = () => {
   a.click();
   window.URL.revokeObjectURL(url);
 }
+
+watch(products, (prods) => {
+  if(!showBrand.value) {
+    const prodsWithBrand = prods.filter((prod) => {
+      return prod.brand
+    })
+    if (prodsWithBrand.length > 0) showBrand.value = true
+  }
+})
 
 </script>
 
