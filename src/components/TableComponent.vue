@@ -49,7 +49,7 @@ function downloadCSV() {
   const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
-  link.setAttribute('download', `${query.value.replace(' ', "_")}.csv`);
+  link.setAttribute('download', `${query.value.replaceAll(' ', "_")}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -78,7 +78,7 @@ const downloadXLSX = () => {
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${query.value.replace(' ', "_")}.xlsx`;
+  a.download = `${query.value.replaceAll(' ', "_")}.xlsx`;
   a.click();
   window.URL.revokeObjectURL(url);
 }
