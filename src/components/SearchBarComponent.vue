@@ -11,10 +11,14 @@
       <span v-if="loadingProducts">page {{ searchInfo.current_page }} of {{ searchInfo.total_pages }}</span>
       <span>{{ products.length }} item{{products.length === 1 ? '' : 's'}} found!</span>
     </div>
+    <div v-else-if="noItems && products.length === 0" class="search-data">
+      Sorry! No items found
+    </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import InputText from 'primevue/inputtext';
 import axios from 'axios';
 import { useDataStore } from '@/stores/data'
@@ -25,10 +29,17 @@ const store = useDataStore()
 const {mergeProducts, resetProducts, isLoadingProducts, resetSearchInfo} = store
 const { products, query, loadingProducts, searchInfo } = storeToRefs(store)
 
-const search = async () => {
+const noItems = ref(false);
+
+const resetToDefault = () => {
+  noItems.value = false
   resetProducts()
   resetSearchInfo()
   isLoadingProducts(true)
+}
+
+const search = async () => {
+  resetToDefault()
   let oopsError = 0
   while (oopsError === 0) {
     try {
@@ -48,6 +59,7 @@ const search = async () => {
       }
       searchInfo.value.current_page++
     } catch (error) {
+      noItems.value = true
       oopsError = 1
       console.error(error);
     }
