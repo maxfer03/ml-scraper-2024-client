@@ -18,5 +18,4 @@ app.use(PrimeVue, {
   pt: Wind
 })
 app.mount('#app')
-
 inject()
