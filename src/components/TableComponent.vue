@@ -18,7 +18,7 @@
       <Column v-if="showBrand" field="brand" header="Brand" style="min-width: 150px" sortable></Column>
       <Column field="final_price" header="Price" style="min-width: 100px" sortable>
         <template #body="slotProps">
-            <span>$ {{slotProps.data.final_price}}</span>
+            <span>{{formatPrice(slotProps.data.final_price)}}</span>
         </template>
       </Column>
       <Column field="url" header="Link" style="width: 70px">
@@ -37,9 +37,12 @@ import * as XLSX from 'xlsx/xlsx.mjs';
 import { useDataStore } from '@/stores/data'
 import { storeToRefs } from 'pinia'
 import { ref, watch } from 'vue';
+import useUtils from '@/components/composables/useUtils'
+
 
 const store = useDataStore()
 const { products, query } = storeToRefs(store)
+const {formatPrice} = useUtils()
 
 const showBrand = ref(false)
 
