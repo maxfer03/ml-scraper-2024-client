@@ -28,7 +28,7 @@ main {
     }
   }
   footer {
-    @apply flex justify-center items-center mb-5
+    @apply flex justify-center items-center mb-5 
   }
 }
 </style>

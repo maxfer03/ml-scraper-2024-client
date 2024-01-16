@@ -2,6 +2,7 @@
   <div class="home-view"> 
     <h1 class="title" >MercadoLibre Scraper</h1>
   <SearchBarComponentComponent/>
+  <PriceDataComponent/>
   <TableComponent/>
   </div>
 </template>
@@ -9,6 +10,7 @@
 <script setup>
 import SearchBarComponentComponent from "@/components/SearchBarComponent.vue"
 import TableComponent from "@/components/TableComponent.vue"
+import PriceDataComponent from "@/components/PriceDataComponent.vue"
 
 </script>
 
