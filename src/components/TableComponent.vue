@@ -1,26 +1,32 @@
 <template>
-  <DataTable v-if="products.length > 0" class="table" :value="products" paginator :rows="50" :rowsPerPageOptions="[5, 10, 20, 50]"
-  scrollable scrollHeight="350px" size="small" removableSort
-  >
-    <template #header>
-      <div class="table-header" >
-        <Button icon="pi pi-external-link" @click="downloadCSV" label="CSV" />
-        <Button icon="pi pi-external-link" @click="downloadXLSX" label="XLSX" />
-      </div>
-    </template>
-    <Column class="col" field="title" header="Title" sortable style="width: 70%"></Column>
-    <Column v-if="showBrand" class="col" field="brand" header="Brand" sortable style="width: 10%"></Column>
-    <Column class="col" field="final_price" header="Price" sortable style="width: 10%">
-      <template #body="slotProps">
-          <span>$ {{slotProps.data.final_price}}</span>
+  <div class="table-container" >
+    <DataTable v-if="products.length > 0" class="data-table" :value="products"
+      paginator :rows="50" 
+      paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+      currentPageReportTemplate="{first} to {last} of {totalRecords}"
+      tableStyle="min-width: 50rem"
+      scrollable scrollHeight="350px" size="small" removableSort
+     >
+      <template #header>
+        <div class="data-table-header" >
+          <Button icon="pi pi-external-link" @click="downloadCSV" label="CSV" />
+          <Button icon="pi pi-external-link" @click="downloadXLSX" label="XLSX" />
+        </div>
       </template>
-    </Column>
-    <Column class="col" field="url" header="Link" style="width: 10%">
-      <template #body="slotProps">
-          <a class="link" :href="slotProps.data.url" target="_blank" >Link</a>
-      </template>
-    </Column>
-  </DataTable>
+      <Column field="title" header="Title" style="min-width: 100px" sortable></Column>
+      <Column v-if="showBrand" field="brand" header="Brand" style="min-width: 150px" sortable></Column>
+      <Column field="final_price" header="Price" style="min-width: 100px" sortable>
+        <template #body="slotProps">
+            <span>$ {{slotProps.data.final_price}}</span>
+        </template>
+      </Column>
+      <Column field="url" header="Link" style="min-width: 100px">
+        <template #body="slotProps">
+            <a class="link" :href="slotProps.data.url" target="_blank" >Link</a>
+        </template>
+      </Column>
+    </DataTable>
+  </div>
 </template>
 
 <script setup>
@@ -104,19 +110,21 @@ watch(products, (prods) => {
 </script>
 
 <style lang="scss" scoped>
-.table {
-  @apply w-[1000px];
-
-  &-header {
-    @apply flex gap-3;
-  }
-
+.table-container {
+  @apply w-[90vw] ;
+  .data-table {
+    &-header {
+      @apply flex gap-3;
+    }
   
-
-  .row-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    
+  
+    .row-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
+
 }
 </style>

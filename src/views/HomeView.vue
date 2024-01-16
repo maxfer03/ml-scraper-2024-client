@@ -3,9 +3,6 @@
     <h1 class="title" >MercadoLibre Scraper</h1>
   <SearchBarComponentComponent/>
   <TableComponent/>
-  <div class="promo">
-    By <a class="link" href="https://www.linkedin.com/in/maxfarenas/" target="_blank" >Max Fernandez</a>
-  </div>
   </div>
 </template>
 
@@ -20,9 +17,6 @@ import TableComponent from "@/components/TableComponent.vue"
   @apply flex flex-col py-5 gap-5 items-center;
   .title {
     @apply text-primary-500;
-  }
-  .promo {
-    @apply absolute bottom-5;
   }
 }
 </style>
