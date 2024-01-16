@@ -25,6 +25,10 @@ const store = useDataStore()
 
 const { products } = storeToRefs(store)
 
+const formatPrice = (raw) => {
+  return Number(raw.toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+
 const getAveragePrice = (arr) => {
     let sum = 0;  
     arr.forEach(element => {
