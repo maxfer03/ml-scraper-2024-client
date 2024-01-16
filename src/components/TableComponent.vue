@@ -6,6 +6,7 @@
       currentPageReportTemplate="{first} to {last} of {totalRecords}"
       tableStyle="min-width: 50rem"
       scrollable scrollHeight="350px" size="small" removableSort
+      showGridlines
      >
       <template #header>
         <div class="data-table-header" >
@@ -20,7 +21,7 @@
             <span>$ {{slotProps.data.final_price}}</span>
         </template>
       </Column>
-      <Column field="url" header="Link" style="min-width: 100px">
+      <Column field="url" header="Link" style="width: 70px">
         <template #body="slotProps">
             <a class="link" :href="slotProps.data.url" target="_blank" >Link</a>
         </template>
