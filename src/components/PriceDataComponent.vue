@@ -1,15 +1,15 @@
 <template>
   <div v-if="products.length > 0" class="price-data">
     <div class="price-data-item">
-      <span class="price">${{getHighestPrice(products)}}</span>
+      <span class="price">{{getHighestPrice(products)}}</span>
       <span class="info">Highest Price</span>
     </div>
     <div class="price-data-item">
-      <span class="price">${{getAveragePrice(products)}}</span>
+      <span class="price">{{getAveragePrice(products)}}</span>
       <span class="info">Average Price</span>
     </div>
     <div class="price-data-item">
-      <span class="price">${{getSmallestPrice(products)}}</span>
+      <span class="price">{{getSmallestPrice(products)}}</span>
       <span class="info">Lowest Price</span>
     </div>
     
@@ -19,15 +19,14 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { useDataStore } from '@/stores/data'
+import useUtils from '@/components/composables/useUtils'
 
 
 const store = useDataStore()
 
 const { products } = storeToRefs(store)
 
-const formatPrice = (raw) => {
-  return Number(raw.toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-}
+const {formatPrice} = useUtils()
 
 const getAveragePrice = (arr) => {
     let sum = 0;  
