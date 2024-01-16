@@ -1,9 +1,11 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { SpeedInsights } from '@vercel/speed-insights/vue';
 </script>
 
 <template>
   <main class="app">
+    <SpeedInsights />
     <!-- <header>
       <nav>
         <RouterLink to="/">Home</RouterLink>
