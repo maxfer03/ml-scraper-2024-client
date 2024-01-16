@@ -65,7 +65,8 @@ const getHighestPrice = (arr) => {
 
 <style lang="scss" scoped>
 .price-data {
-  @apply flex justify-center items-center gap-8;
+  @apply flex flex-col justify-center items-center gap-8
+  lg:flex-row;
 
   &-item {
     @apply w-[200px] flex flex-col items-center justify-center gap-2;
