@@ -8,7 +8,6 @@ import Button from "primevue/button"
 import App from './App.vue'
 import router from './router'
 import { inject } from '@vercel/analytics';
-inject()
 const app = createApp(App)
 
 app.use(createPinia())
@@ -19,3 +18,5 @@ app.use(PrimeVue, {
   pt: Wind
 })
 app.mount('#app')
+
+inject()
