@@ -6,7 +6,7 @@
     </div>
     <div class="price-data-item">
       <span class="price">${{getAveragePrice(products)}}</span>
-      <span class="info">Avarage Price</span>
+      <span class="info">Average Price</span>
     </div>
     <div class="price-data-item">
       <span class="price">${{getSmallestPrice(products)}}</span>
@@ -25,10 +25,6 @@ const store = useDataStore()
 
 const { products } = storeToRefs(store)
 
-const formatPrice = (raw) => {
-  return Number(raw.toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-}
-
 const getAveragePrice = (arr) => {
     let sum = 0;  
     arr.forEach(element => {
@@ -36,8 +32,8 @@ const getAveragePrice = (arr) => {
         sum += element.final_price;
       }
     });
-    const avarage = sum / arr.length
-    return formatPrice(avarage);
+    const average = sum / arr.length
+    return formatPrice(average);
 }
 
 const getSmallestPrice = (arr) => {
