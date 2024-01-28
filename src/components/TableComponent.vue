@@ -115,7 +115,7 @@ watch(products, (prods) => {
 
 <style lang="scss" scoped>
 .table-container {
-  @apply w-[90vw] ;
+  @apply w-[90vw] lg:w-[50vw] xl:w-auto;
   .data-table {
     &-header {
       @apply flex gap-3;
