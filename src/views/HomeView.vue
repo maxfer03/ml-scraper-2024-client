@@ -4,9 +4,7 @@
   <SearchBarComponentComponent/>
   <PriceDataComponent/>
   <div class="dashboard" >
-    <BoxContainer header="Brands" class="brand-pie-chart-box" >
-      <BrandPieChartComponent/>
-    </BoxContainer>
+    <BrandPieChartComponent/>
     <TableComponent/>
   </div>
   </div>
@@ -17,7 +15,6 @@ import SearchBarComponentComponent from "@/components/SearchBarComponent.vue"
 import TableComponent from "@/components/TableComponent.vue"
 import PriceDataComponent from "@/components/PriceDataComponent.vue"
 import BrandPieChartComponent from "@/components/BrandPieChartComponent.vue"
-import BoxContainer from "@/components/containers/BoxContainer.vue"
 </script>
 
 <style lang="scss" scoped >
@@ -29,9 +26,7 @@ import BoxContainer from "@/components/containers/BoxContainer.vue"
   .dashboard {
     @apply flex items-center flex-col gap-5 lg:flex-row lg:items-start;
 
-    .brand-pie-chart-box {
-      @apply max-w-[400px];
-    }
+    
   }
 }
 </style>
