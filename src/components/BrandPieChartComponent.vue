@@ -2,16 +2,12 @@
   <div v-if="datasetByBrand.datasets[0].data.length > 0" class="brand-pie-chart"
     ref="chartContainer"
     >
-    <Panel
-    header="Most Popular Brands"
-    >
       <Chart
       ref="chart"
       type="pie"
       :data="datasetByBrand"
       :options="pieChartOptions"
       />
-    </Panel>
   </div>
 </template>
 
@@ -81,6 +77,5 @@ const pieChartOptions = {
 
 <style lang="scss" scoped>
 .brand-pie-chart {
-  @apply w-full max-w-[70%]
 }
 </style>
