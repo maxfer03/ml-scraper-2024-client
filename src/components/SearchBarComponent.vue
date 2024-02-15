@@ -51,7 +51,6 @@ const search = async () => {
           page: searchInfo.value.current_page
         } 
       });
-      console.log(response)
       mergeProducts(response.data.products)
       if(!searchInfo.value.total_pages && !searchInfo.value.url) {
         searchInfo.value.total_pages = response.data.info.total_pages

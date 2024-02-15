@@ -1,23 +1,24 @@
 <template>
-  <div v-if="datasetByBrand.datasets[0].data.length > 0" class="brand-pie-chart"
-    ref="chartContainer"
-    >
-      <Chart
-      ref="chart"
-      type="pie"
-      :data="datasetByBrand"
-      :options="pieChartOptions"
-      />
-  </div>
+  <BoxContainer v-if="datasetByBrand.datasets[0].data.length > 0" header="Brands" class="brand-pie-chart-box" >
+      <div class="brand-pie-chart"
+        ref="chartContainer"
+        >
+          <Chart
+          ref="chart"
+          type="pie"
+          :data="datasetByBrand"
+          :options="pieChartOptions"
+          />
+      </div>
+    </BoxContainer>
 </template>
 
 <script setup>
 import Chart from 'primevue/chart';
 import { useDataStore } from '@/stores/data'
 import { storeToRefs } from 'pinia'
-import { computed, onMounted, ref, watch } from 'vue';
-import Panel from 'primevue/panel';
-
+import { computed, ref } from 'vue';
+import BoxContainer from "@/components/containers/BoxContainer.vue"
 
 
 const store = useDataStore()
@@ -30,7 +31,6 @@ const datasetByBrand = computed(() => {
   const prods = products.value
   let byBrand = {}
   for(let i of prods) {
-    console.log(i.brand)
     if(i.brand) {
       byBrand[i.brand] ? byBrand[i.brand]++ : byBrand[i.brand] = 1
     }
@@ -76,6 +76,7 @@ const pieChartOptions = {
 </script>
 
 <style lang="scss" scoped>
-.brand-pie-chart {
-}
+.brand-pie-chart-box {
+      @apply max-w-[400px];
+    }
 </style>
