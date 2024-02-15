@@ -4,8 +4,8 @@
       paginator :rows="50" 
       paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
       currentPageReportTemplate="{first} to {last} of {totalRecords}"
-      tableStyle="min-width: 50rem"
-      scrollable scrollHeight="350px" size="small" removableSort
+      
+       scrollHeight="350px" size="small" removableSort
       showGridlines
      >
       <template #header>
@@ -119,6 +119,9 @@ watch(products, (prods) => {
   .data-table {
     &-header {
       @apply flex gap-3;
+    }
+
+    div[data-pc-section="wrapper"] {
     }
   
     

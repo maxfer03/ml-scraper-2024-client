@@ -1,14 +1,20 @@
-# scraper_client
+# Mercado Libre Scraper Client
 
-This template should help get you started developing with Vue 3 in Vite.
+Front-end client for my [MercadoLibre Scraper API](https://github.com/maxfer03/ml-scraper-2024-api). Developed with Vue and Tailwind.
 
-## Recommended IDE Setup
+## Features:
+- Display data as spreadsheet
+- Can export data as xlsx / csv file
+- Sorting
+- Brands graph
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## To-do's
+- Scraping of MercadoLibre on other regions (uruguay, brazil, etc)
+- More statistics (who doens't like cool graphics?)
+- Filtering by brand when possible
+- Front-end polishing
 
-## Customize configuration
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
 
