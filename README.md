@@ -15,7 +15,6 @@ Front-end client for my [MercadoLibre Scraper API](https://github.com/maxfer03/m
 - Front-end polishing
 
 
-
 ## Project Setup
 
 ```sh
