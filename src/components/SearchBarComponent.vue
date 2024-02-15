@@ -8,7 +8,7 @@
       <Button @click="search" icon="pi pi-search"  rounded size="small"/>
     </div>
     <div v-if="products.length > 0" class="search-data">
-      <span v-if="loadingProducts">page {{ searchInfo.current_page }} of {{ searchInfo.total_pages }}</span>
+      <span v-if="loadingProducts">Looking at page {{ searchInfo.current_page }}</span>
       <span>{{ products.length }} item{{products.length === 1 ? '' : 's'}} found!</span>
     </div>
     <div v-else-if="noItems && products.length === 0" class="search-data">
