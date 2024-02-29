@@ -1,12 +1,17 @@
 <template>
   <div class="search-bar-module">
     <div class="search">
-      <span class="search-field">
-        <i v-if="loadingProducts" class="search-field-spinner pi pi-spin pi-spinner" />
-        <InputText @keydown.enter="search" v-model="query" placeholder="Search" />
-      </span>
-      <Dropdown class="domains" v-model="selectedDomain" :options="domains" optionLabel="name"/>
-      <Button @click="search" icon="pi pi-search" rounded size="small" />
+      <div class="search-top">
+        <span class="search-top-field">
+          <i v-if="loadingProducts" class="search-top-field-spinner pi pi-spin pi-spinner" />
+          <InputText @keydown.enter="search" v-model="query" placeholder="Search" />
+        </span>
+        <Dropdown class="domains" v-model="selectedDomain" :options="domains" optionLabel="name" />
+        <Button @click="search" icon="pi pi-search" rounded size="small" />
+      </div>
+      <div class="search-btm" >
+        <Chips placeholder="Excluded words" class="excluded" v-model="excluded" separator="," />
+      </div>
     </div>
     <div v-if="products.length > 0" class="search-data">
       <span v-if="loadingProducts">Looking at page {{ searchInfo.current_page }}</span>
@@ -25,6 +30,7 @@ import axios from 'axios';
 import { useDataStore } from '@/stores/data'
 import { storeToRefs } from 'pinia'
 import Dropdown from 'primevue/dropdown';
+import Chips from 'primevue/chips';
 const store = useDataStore()
 
 const { mergeProducts, resetProducts, isLoadingProducts, resetSearchInfo } = store
@@ -38,6 +44,8 @@ const domains = ref([
 
 ]);
 const selectedDomain = ref(domains.value[0]);
+
+const excluded = ref([])
 
 
 const noItems = ref(false);
@@ -53,6 +61,7 @@ const search = async () => {
   resetToDefault()
   let oopsError = 0
   while (oopsError === 0) {
+    console.log(excluded.value)
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/search`,
         {
@@ -60,7 +69,8 @@ const search = async () => {
           {
             query: query.value,
             tld: selectedDomain.value.code,
-            page: searchInfo.value.current_page
+            page: searchInfo.value.current_page,
+            exc: excluded.value
           }
         });
       mergeProducts(response.data.products)
@@ -85,23 +95,39 @@ const search = async () => {
   @apply flex flex-col items-center gap-2;
 
   .search {
-    @apply flex items-center gap-2;
+    @apply flex flex-col items-center gap-2 max-w-[400px]
+    lg:w-[400px];
 
-    &-field {
-      @apply relative;
+    &-top {
+      @apply w-full flex items-center gap-2;
 
-      &-spinner {
-        @apply absolute top-2/4 -mt-2 right-3 text-surface-400 dark:text-surface-600;
+      &-field {
+        @apply relative;
+
+        &-spinner {
+          @apply absolute top-2/4 -mt-2 right-3 text-surface-400 dark:text-surface-600;
+        }
+
+        input {
+          @apply w-[250px] pr-9
+        }
       }
 
-      input {
-        @apply w-[250px] pr-9
+      .domains {
+        @apply w-24;
       }
     }
 
-    .domains {
-      @apply w-24;
+    &-btm {
+      @apply w-full;
+
+      .excluded:deep() {
+        ul {
+          @apply p-2;
+        }
+      }
     }
+
 
   }
 
