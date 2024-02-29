@@ -1,15 +1,16 @@
 <template>
-  <div class="search-bar-module" >
-    <div class="search" >
+  <div class="search-bar-module">
+    <div class="search">
       <span class="search-field">
         <i v-if="loadingProducts" class="search-field-spinner pi pi-spin pi-spinner" />
         <InputText @keydown.enter="search" v-model="query" placeholder="Search" />
       </span>
-      <Button @click="search" icon="pi pi-search"  rounded size="small"/>
+      <Dropdown class="domains" v-model="selectedDomain" :options="domains" optionLabel="name"/>
+      <Button @click="search" icon="pi pi-search" rounded size="small" />
     </div>
     <div v-if="products.length > 0" class="search-data">
       <span v-if="loadingProducts">Looking at page {{ searchInfo.current_page }}</span>
-      <span>{{ products.length }} item{{products.length === 1 ? '' : 's'}} found!</span>
+      <span>{{ products.length }} item{{ products.length === 1 ? '' : 's' }} found!</span>
     </div>
     <div v-else-if="noItems && products.length === 0" class="search-data">
       Sorry! No items found
@@ -23,11 +24,21 @@ import InputText from 'primevue/inputtext';
 import axios from 'axios';
 import { useDataStore } from '@/stores/data'
 import { storeToRefs } from 'pinia'
-
+import Dropdown from 'primevue/dropdown';
 const store = useDataStore()
 
-const {mergeProducts, resetProducts, isLoadingProducts, resetSearchInfo} = store
+const { mergeProducts, resetProducts, isLoadingProducts, resetSearchInfo } = store
 const { products, query, loadingProducts, searchInfo } = storeToRefs(store)
+
+const domains = ref([
+  { name: 'Arg', code: 'ar' },
+  { name: 'Uru', code: 'uy' },
+  { name: 'Chi', code: 'cl' },
+  { name: 'Bra', code: 'br' },
+
+]);
+const selectedDomain = ref(domains.value[0]);
+
 
 const noItems = ref(false);
 
@@ -44,15 +55,16 @@ const search = async () => {
   while (oopsError === 0) {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/search`,
-       { 
-        params: 
-        { 
-          query: query.value,
-          page: searchInfo.value.current_page
-        } 
-      });
+        {
+          params:
+          {
+            query: query.value,
+            tld: selectedDomain.value.code,
+            page: searchInfo.value.current_page
+          }
+        });
       mergeProducts(response.data.products)
-      if(!searchInfo.value.total_pages && !searchInfo.value.url) {
+      if (!searchInfo.value.total_pages && !searchInfo.value.url) {
         searchInfo.value.total_pages = response.data.info.total_pages
         searchInfo.value.url = response.data.info.url
       }
@@ -71,11 +83,13 @@ const search = async () => {
 <style lang="scss" scoped>
 .search-bar-module {
   @apply flex flex-col items-center gap-2;
+
   .search {
     @apply flex items-center gap-2;
 
     &-field {
       @apply relative;
+
       &-spinner {
         @apply absolute top-2/4 -mt-2 right-3 text-surface-400 dark:text-surface-600;
       }
@@ -85,8 +99,8 @@ const search = async () => {
       }
     }
 
-    button {
-      @apply w-full
+    .domains {
+      @apply w-24;
     }
 
   }
