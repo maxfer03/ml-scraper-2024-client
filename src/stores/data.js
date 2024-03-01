@@ -13,10 +13,10 @@ export const useDataStore = defineStore('data', () => {
   const products = ref([])
 
   const usdRate = ref({
-    brasil: '1',
-    chile: '1',
-    uruguay: '1',
-    argentina: '1',
+    br: '1',
+    cl: '1',
+    uy: '1',
+    ar: '1',
   })
 
   const updateUsdRate = (obj) => {
