@@ -6,15 +6,21 @@
       showGridlines>
       <template #header>
         <div class="data-table-header">
-          <Button icon="pi pi-external-link" @click="downloadCSV" label="CSV" />
-          <Button icon="pi pi-external-link" @click="downloadXLSX" label="XLSX" />
+          <div class="data-table-header-left">
+            <Button icon="pi pi-external-link" @click="downloadCSV" label="CSV" />
+            <Button icon="pi pi-external-link" @click="downloadXLSX" label="XLSX" />
+          </div>
+          <div class="data-table-header-right">
+            <Dollarizer />
+          </div>
         </div>
       </template>
       <Column field="title" header="Title" style="min-width: 100px" sortable></Column>
       <Column v-if="showBrand" field="brand" header="Brand" style="min-width: 150px" sortable></Column>
       <Column field="final_price" header="Price" style="min-width: 100px" sortable>
         <template #body="slotProps">
-          <span>{{ formatPrice({ raw: slotProps.data.final_price, isUsd: slotProps.data.is_usd }) }}</span>
+          <span>{{ formatPrice({ raw: slotProps.data.final_price, isUsd: slotProps.data.is_usd, inUsd: dollarized })
+          }}</span>
         </template>
       </Column>
       <Column field="url" header="Link" style="width: 70px">
@@ -29,6 +35,7 @@
 <script setup>
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Dollarizer from '@/components/DollarizerComponent.vue';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { useDataStore } from '@/stores/data'
 import { storeToRefs } from 'pinia'
@@ -37,7 +44,7 @@ import useUtils from '@/components/composables/useUtils'
 
 
 const store = useDataStore()
-const { products, query } = storeToRefs(store)
+const { products, query, dollarized } = storeToRefs(store)
 const { formatPrice } = useUtils()
 
 const showBrand = ref(false)
@@ -115,10 +122,16 @@ watch(products, (prods) => {
 
   .data-table {
     &-header {
-      @apply flex gap-3;
-    }
+      @apply flex justify-between;
 
-    div[data-pc-section="wrapper"] {}
+      &-left {
+        @apply flex gap-3;
+
+        button {
+          @apply w-24;
+        }
+      }
+    }
 
 
 
