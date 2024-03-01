@@ -1,15 +1,11 @@
 <template>
-  <div class="table-container" >
-    <DataTable v-if="products.length > 0" class="data-table" :value="products"
-      paginator :rows="50" 
+  <div class="table-container">
+    <DataTable v-if="products.length > 0" class="data-table" :value="products" paginator :rows="50"
       paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-      currentPageReportTemplate="{first} to {last} of {totalRecords}"
-      
-       scrollHeight="350px" size="small" removableSort
-      showGridlines
-     >
+      currentPageReportTemplate="{first} to {last} of {totalRecords}" scrollHeight="350px" size="small" removableSort
+      showGridlines>
       <template #header>
-        <div class="data-table-header" >
+        <div class="data-table-header">
           <Button icon="pi pi-external-link" @click="downloadCSV" label="CSV" />
           <Button icon="pi pi-external-link" @click="downloadXLSX" label="XLSX" />
         </div>
@@ -18,12 +14,12 @@
       <Column v-if="showBrand" field="brand" header="Brand" style="min-width: 150px" sortable></Column>
       <Column field="final_price" header="Price" style="min-width: 100px" sortable>
         <template #body="slotProps">
-            <span>{{formatPrice(slotProps.data.final_price)}}</span>
+          <span>{{ formatPrice({ raw: slotProps.data.final_price, isUsd: slotProps.data.is_usd }) }}</span>
         </template>
       </Column>
       <Column field="url" header="Link" style="width: 70px">
         <template #body="slotProps">
-            <a class="link" :href="slotProps.data.url" target="_blank" >Link</a>
+          <a class="link" :href="slotProps.data.url" target="_blank">Link</a>
         </template>
       </Column>
     </DataTable>
@@ -42,7 +38,7 @@ import useUtils from '@/components/composables/useUtils'
 
 const store = useDataStore()
 const { products, query } = storeToRefs(store)
-const {formatPrice} = useUtils()
+const { formatPrice } = useUtils()
 
 const showBrand = ref(false)
 
@@ -68,13 +64,13 @@ function downloadCSV() {
 const downloadXLSX = () => {
   // Create a worksheet
   const ws = XLSX.utils.json_to_sheet(products.value);
-  ws['D2'].l = { Target: "https://sheetjs.com"}
+  ws['D2'].l = { Target: "https://sheetjs.com" }
   const DRow = Object.keys(ws).filter(key => key.includes('D'))
 
   for (const idx in DRow) {
     const thisUrl = ws[DRow[idx]].v
     // ws[DRow[idx]].v = "Open Link"
-    ws[DRow[idx]].l = {Target: thisUrl}
+    ws[DRow[idx]].l = { Target: thisUrl }
   }
 
   // Create a workbook
@@ -103,7 +99,7 @@ const downloadXLSX = () => {
 }
 
 watch(products, (prods) => {
-  if(!showBrand.value) {
+  if (!showBrand.value) {
     const prodsWithBrand = prods.filter((prod) => {
       return prod.brand
     })
@@ -116,16 +112,16 @@ watch(products, (prods) => {
 <style lang="scss" scoped>
 .table-container {
   @apply w-[90vw] lg:w-[50vw] xl:w-auto;
+
   .data-table {
     &-header {
       @apply flex gap-3;
     }
 
-    div[data-pc-section="wrapper"] {
-    }
-  
-    
-  
+    div[data-pc-section="wrapper"] {}
+
+
+
     .row-title {
       white-space: nowrap;
       overflow: hidden;
