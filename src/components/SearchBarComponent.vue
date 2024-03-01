@@ -10,7 +10,7 @@
         <Button @click="search" icon="pi pi-search" rounded size="small" />
       </div>
       <div class="search-btm">
-        <Chips placeholder="Excluded words" class="excluded" v-model="excluded" separator="," />
+        <Chips :placeholder="excludedPlaceholder" class="excluded" v-model="excluded" separator="," />
       </div>
     </div>
     <div v-if="products.length > 0" class="search-data">
@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import InputText from 'primevue/inputtext';
 import axios from 'axios';
 import { useDataStore } from '@/stores/data'
@@ -87,6 +87,13 @@ const search = async () => {
   }
   isLoadingProducts(false)
 }
+
+const excludedPlaceholder = computed(() => {
+  if (excluded.value.length > 0) {
+    return ''
+  }
+  return 'Excluded Words'
+})
 
 </script>
 
