@@ -19,6 +19,12 @@ export const useDataStore = defineStore('data', () => {
     ar: '1',
   })
 
+  const dollarized = ref(false);
+
+  const switchCurrency = () => {
+    dollarized.value = !dollarized.value
+  }
+
   const updateUsdRate = (obj) => {
     usdRate.value = { ...usdRate.value, ...obj }
   }
@@ -45,5 +51,5 @@ export const useDataStore = defineStore('data', () => {
     }
   }
 
-  return { query, loadingProducts, searchInfo, products, usdRate, updateUsdRate, mergeProducts, resetProducts, isLoadingProducts, resetSearchInfo }
+  return { query, loadingProducts, searchInfo, products, usdRate, dollarized, switchCurrency, updateUsdRate, mergeProducts, resetProducts, isLoadingProducts, resetSearchInfo }
 })

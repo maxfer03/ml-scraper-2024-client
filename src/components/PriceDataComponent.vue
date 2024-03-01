@@ -24,7 +24,7 @@ import useUtils from '@/components/composables/useUtils'
 
 const store = useDataStore()
 
-const { products } = storeToRefs(store)
+const { products, dollarized } = storeToRefs(store)
 
 const { formatPrice } = useUtils()
 
@@ -36,7 +36,7 @@ const getAveragePrice = (arr) => {
     }
   });
   const average = sum / arr.length
-  return formatPrice({ raw: average });
+  return formatPrice({ raw: average, inUsd: dollarized.value });
 }
 
 const getSmallestPrice = (arr) => {
@@ -46,7 +46,7 @@ const getSmallestPrice = (arr) => {
       smallest = element.final_price;
     }
   });
-  return formatPrice({ raw: smallest });
+  return formatPrice({ raw: smallest, inUsd: dollarized.value });
 }
 
 const getHighestPrice = (arr) => {
@@ -56,7 +56,7 @@ const getHighestPrice = (arr) => {
       highest = element.final_price;
     }
   });
-  return formatPrice({ raw: highest });
+  return formatPrice({ raw: highest, inUsd: dollarized.value });
 }
 
 
