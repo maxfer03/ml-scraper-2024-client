@@ -10,6 +10,17 @@ export const useDataStore = defineStore('data', () => {
     url: null
   })
   const products = ref([])
+
+  const usdRate = ref({
+    brasil: '1',
+    chile: '1',
+    uruguay: '1',
+  })
+
+  const updateUsdRate = (obj) => {
+    usdRate.value = obj
+  }
+
   function mergeProducts(arr) {
     products.value = [...products.value, ...arr]
   }
@@ -20,7 +31,7 @@ export const useDataStore = defineStore('data', () => {
 
   const isLoadingProducts = (value) => {
     loadingProducts.value = value
-  } 
+  }
 
   const resetSearchInfo = () => {
     searchInfo.value = {
@@ -30,5 +41,5 @@ export const useDataStore = defineStore('data', () => {
     }
   }
 
-  return { query, loadingProducts, searchInfo, products, mergeProducts, resetProducts, isLoadingProducts, resetSearchInfo }
+  return { query, loadingProducts, searchInfo, products, usdRate, updateUsdRate, mergeProducts, resetProducts, isLoadingProducts, resetSearchInfo }
 })
