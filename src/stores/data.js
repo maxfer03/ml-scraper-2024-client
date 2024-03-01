@@ -15,6 +15,7 @@ export const useDataStore = defineStore('data', () => {
     brasil: '1',
     chile: '1',
     uruguay: '1',
+    argentina: '1',
   })
 
   const updateUsdRate = (obj) => {
