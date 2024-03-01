@@ -19,7 +19,7 @@ export const useDataStore = defineStore('data', () => {
   })
 
   const updateUsdRate = (obj) => {
-    usdRate.value = obj
+    usdRate.value = { ...usdRate.value, ...obj }
   }
 
   function mergeProducts(arr) {
