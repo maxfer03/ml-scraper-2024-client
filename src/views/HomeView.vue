@@ -21,7 +21,7 @@ import BrandPieChartComponent from "@/components/BrandPieChartComponent.vue"
 .home-view {
   @apply flex flex-col py-5 gap-5 items-center;
   .title {
-    @apply text-primary-500;
+    @apply text-center text-primary-500;
   }
   .dashboard {
     @apply flex items-center flex-col gap-5 lg:flex-row lg:items-start;

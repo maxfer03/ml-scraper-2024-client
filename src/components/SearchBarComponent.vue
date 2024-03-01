@@ -92,7 +92,7 @@ const excludedPlaceholder = computed(() => {
   if (excluded.value.length > 0) {
     return ''
   }
-  return 'Excluded Words'
+  return 'Excluded Words (separated by commas)'
 })
 
 </script>
@@ -115,12 +115,12 @@ const excludedPlaceholder = computed(() => {
         }
 
         input {
-          @apply w-[250px] pr-9
+          @apply w-32 lg:w-[250px] pr-9
         }
       }
 
       .domains {
-        @apply w-24;
+        @apply w-28 lg:w-24;
       }
     }
 
