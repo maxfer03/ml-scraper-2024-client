@@ -9,7 +9,7 @@
         <Dropdown class="domains" v-model="selectedDomain" :options="domains" optionLabel="name" />
         <Button @click="search" icon="pi pi-search" rounded size="small" />
       </div>
-      <div class="search-btm" >
+      <div class="search-btm">
         <Chips placeholder="Excluded words" class="excluded" v-model="excluded" separator="," />
       </div>
     </div>
@@ -74,9 +74,10 @@ const search = async () => {
           }
         });
       mergeProducts(response.data.products)
-      if (!searchInfo.value.total_pages && !searchInfo.value.url) {
+      if (!searchInfo.value.total_pages && !searchInfo.value.url && !searchInfo.value.tld) {
         searchInfo.value.total_pages = response.data.info.total_pages
         searchInfo.value.url = response.data.info.url
+        searchInfo.value.tld = response.data.info.tld
       }
       searchInfo.value.current_page++
     } catch (error) {
@@ -95,8 +96,7 @@ const search = async () => {
   @apply flex flex-col items-center gap-2;
 
   .search {
-    @apply flex flex-col items-center gap-2 max-w-[400px]
-    lg:w-[400px];
+    @apply flex flex-col items-center gap-2 max-w-[400px] lg:w-[400px];
 
     &-top {
       @apply w-full flex items-center gap-2;

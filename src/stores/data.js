@@ -7,7 +7,8 @@ export const useDataStore = defineStore('data', () => {
   const searchInfo = ref({
     current_page: 0,
     total_pages: null,
-    url: null
+    url: null,
+    tld: null
   })
   const products = ref([])
 
@@ -38,7 +39,9 @@ export const useDataStore = defineStore('data', () => {
     searchInfo.value = {
       current_page: 0,
       total_pages: null,
-      url: ''
+      url: '',
+      tld: null
+
     }
   }
 
