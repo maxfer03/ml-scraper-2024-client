@@ -72,7 +72,6 @@ const getSmallestPrice = (arr) => {
     if (typeof element.final_price === 'number' && element.final_price < smallest) {
       smallest = element.final_price;
       isUsd = element.is_usd
-      console.log(element, smallest)
     }
   });
   const formatted = formatPrice({ raw: smallest, isUsd: isUsd, inUsd: dollarized.value })
