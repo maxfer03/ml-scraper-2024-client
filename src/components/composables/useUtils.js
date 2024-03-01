@@ -32,6 +32,7 @@ export default function useUtils() {
   }
 
   const formatPrice = ({ raw, isUsd = false, inUsd = false, append = getCurrAppend() }) => {
+    console.log(raw)
     let valueToFormat = raw
     let finalAppend = append
     if (isUsd) {
